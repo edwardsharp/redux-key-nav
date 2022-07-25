@@ -28,6 +28,7 @@ export default function Button(props: ButtonProps) {
   const parent = props.parent || "root";
   const position = props.position || 0;
 
+  console.log(name, "rendered!");
   useEffect(() => {
     // console.log("gonna registerElement:", {
     //   containerId: parent,
