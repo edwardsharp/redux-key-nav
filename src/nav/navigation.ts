@@ -10,17 +10,18 @@ export interface NavigationItem {
 // note: explore better typeing? trying to get from an untyped const
 // to an inferred type so e.g. navigationContainers['this-is-not-a-obj-key'] can be avoided.
 export type NavigationContainerName = keyof typeof navigationContainers;
-// export type NavigationContainer =
-//   typeof navigationContainers[NavigationContainerName];
 export interface NavigationContainer {
   direction: "row" | "column";
   parent: string;
   position: number;
 }
+interface NavigationContainers {
+  [index: string]: NavigationContainer;
+}
 
 // #TODO: write a validation test to ensure the heirarchy is valid,
 // so like positions and parents don't have errors.
-export const navigationContainers: { [index: string]: NavigationContainer } = {
+export const navigationContainers: NavigationContainers = {
   root: {
     direction: "row",
     parent: "root",
