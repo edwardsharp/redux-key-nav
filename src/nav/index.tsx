@@ -1,8 +1,8 @@
+import { nextItem, onSelect } from "./navigationSlice";
 import { useCallback, useEffect } from "react";
 
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
-import { nextElement } from "./navigationSlice";
 import { useAppDispatch } from "../app/hooks";
 
 export default function Nav() {
@@ -15,7 +15,10 @@ export default function Nav() {
       e.key === "ArrowLeft" ||
       e.key === "ArrowRight"
     ) {
-      dispatch(nextElement(e.key));
+      dispatch(nextItem(e.key));
+    }
+    if (e.key === "Enter") {
+      dispatch(onSelect("hey"));
     }
   }, []);
 
@@ -28,7 +31,7 @@ export default function Nav() {
 
   return (
     <>
-      <ButtonGroup direction="row" parent="root" containerId="abc" position={0}>
+      <ButtonGroup containerId="abc">
         <Button name="a" initialFocus>
           <span>A</span>
         </Button>
@@ -40,12 +43,7 @@ export default function Nav() {
         </Button>
       </ButtonGroup>
 
-      <ButtonGroup
-        direction="column"
-        parent="root"
-        containerId="onetwothree"
-        position={1}
-      >
+      <ButtonGroup containerId="onetwothree">
         <Button name="one">
           <span>One</span>
         </Button>
@@ -60,12 +58,7 @@ export default function Nav() {
         </Button>
       </ButtonGroup>
 
-      <ButtonGroup
-        direction="row"
-        parent="root"
-        containerId="leftright"
-        position={2}
-      >
+      <ButtonGroup containerId="leftright">
         <Button name="left">
           <span>Left</span>
         </Button>
@@ -76,18 +69,8 @@ export default function Nav() {
 
       <b>nested</b>
 
-      <ButtonGroup
-        direction="row"
-        parent="root"
-        containerId="group-a"
-        position={3}
-      >
-        <ButtonGroup
-          direction="column"
-          parent="group-a"
-          containerId="aoneatwoathreeafour"
-          position={0}
-        >
+      <ButtonGroup containerId="group-a">
+        <ButtonGroup containerId="aoneatwoathreeafour">
           <Button name="a one">
             <span>A One</span>
           </Button>
@@ -102,18 +85,8 @@ export default function Nav() {
           </Button>
         </ButtonGroup>
 
-        <ButtonGroup
-          direction="column"
-          parent="group-a"
-          containerId="group-b"
-          position={1}
-        >
-          <ButtonGroup
-            direction="row"
-            parent="group-b"
-            containerId="boneabtwob"
-            position={0}
-          >
+        <ButtonGroup containerId="group-b">
+          <ButtonGroup containerId="boneabtwob">
             <Button name="b one a">
               <span>B One A</span>
             </Button>

@@ -1,61 +1,62 @@
-import { ReactNode, useEffect, useId } from "react";
 import {
-  registerElement,
-  remove,
-  selectActiveElement,
-} from "./navigationSlice";
+  NavigationContainerName,
+  navigationContainers,
+  navigationEvents,
+} from "./navigation";
+import { ReactNode, useEffect, useId } from "react";
+import { insert, remove, selectIsActiveElement } from "./navigationSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 
 import { Button as MUIButton } from "@mui/material";
 
 interface ButtonProps {
-  parent?: string;
+  containerId?: NavigationContainerName;
   position?: number;
   children?: ReactNode;
-  containerParent?: string;
-  containerDirection?: "row" | "column";
   initialFocus?: boolean;
   name?: string; // helpful for debugging rn.
 }
 
 export default function Button(props: ButtonProps) {
-  const { children, containerParent, containerDirection, initialFocus, name } =
-    props;
+  const { children, initialFocus, name } = props;
   const dispatch = useAppDispatch();
-  const activeElement = useAppSelector(selectActiveElement);
   const id = useId();
-  const isActiveElement = activeElement && activeElement.id === id;
-  const parent = props.parent || "root";
-  const position = props.position || 0;
+  const isActiveElement = useAppSelector((state) =>
+    selectIsActiveElement(state, id)
+  );
 
-  console.log(name, "rendered!");
+  const containerId = props.containerId || "root";
+  const position = props.position || 0;
+  const container = navigationContainers[containerId];
+
+  // console.log(name, "rendered!");
   useEffect(() => {
-    // console.log("gonna registerElement:", {
-    //   containerId: parent,
-    //   id,
-    //   position,
-    // });
     dispatch(
-      registerElement({
-        containerId: parent,
+      insert({
         id,
         position,
         name,
-        parent: containerParent,
-        containerDirection,
+        containerId,
+        container,
         initialFocus,
       })
     );
+
+    const subscription = navigationEvents.subscribe(id, (str) => {
+      console.log(id, name, "got event!");
+    });
+
     return () => {
-      // console.log("need to remove element!", id);
       dispatch(remove(id));
+
+      subscription.remove();
     };
   }, []);
 
   return (
     <MUIButton variant={isActiveElement ? "contained" : "outlined"}>
       {children}
-      --id:{id}--parent:{parent}-- pos:{position}
+      {id} {containerId} {position}
     </MUIButton>
   );
 }
