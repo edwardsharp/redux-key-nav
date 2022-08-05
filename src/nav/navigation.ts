@@ -13,62 +13,84 @@ export interface NavigationItem {
   name?: string; // making debug'n a lil' easier right now.
 }
 
-// note: explore better typeing? trying to get from an untyped const
-// to an inferred type so e.g. navigationContainers['this-is-not-a-obj-key'] can be avoided.
-export type NavigationContainerName = keyof typeof navigationContainers;
+// #TODO: explore better types? this might be a little weird.
+export type NavigationContainerName = keyof typeof defs;
+interface NavigationContainerDefs {
+  [index: string]: NavigationContainer;
+}
+
+type NavigationContainers = {
+  [Property in NavigationContainerName]: NavigationContainer;
+};
+
 export interface NavigationContainer {
   direction: "row" | "column";
-  parent: string;
-  position: number;
-}
-interface NavigationContainers {
-  [index: string]: NavigationContainer;
+  exits?: {
+    north?: NavigationContainerName;
+    south?: NavigationContainerName;
+    east?: NavigationContainerName;
+    west?: NavigationContainerName;
+  };
 }
 
 // #TODO: write a validation test to ensure the heirarchy is valid,
 // so like positions and parents don't have errors.
-export const navigationContainers: NavigationContainers = {
+const defs: NavigationContainerDefs = {
   root: {
     direction: "row",
-    parent: "root",
-    position: -1,
   },
   abc: {
     direction: "row",
-    parent: "root",
-    position: 0,
+    exits: {
+      south: "onetwothree",
+    },
   },
   onetwothree: {
     direction: "column",
-    parent: "root",
-    position: 1,
+    exits: {
+      north: "abc",
+      south: "leftright",
+    },
   },
   leftright: {
     direction: "row",
-    parent: "root",
-    position: 2,
+    exits: {
+      north: "onetwothree",
+      south: "group-a",
+    },
   },
   "group-a": {
     direction: "row",
-    parent: "root",
-    position: 3,
+    exits: {
+      north: "leftright",
+      south: "aoneatwoathreeafour",
+    },
   },
   aoneatwoathreeafour: {
     direction: "column",
-    parent: "group-a",
-    position: 0,
+    exits: {
+      north: "group-a",
+      east: "boneabtwob",
+    },
   },
   "group-b": {
     direction: "column",
-    parent: "group-a",
-    position: 1,
+    exits: {
+      north: "boneabtwob",
+      west: "aoneatwoathreeafour",
+    },
   },
   boneabtwob: {
     direction: "row",
-    parent: "group-b",
-    position: 0,
+    exits: {
+      north: "group-a",
+      south: "group-b",
+      west: "aoneatwoathreeafour",
+    },
   },
 };
+
+export const navigationContainers = defs as NavigationContainers;
 
 /*
 simple pub/sub

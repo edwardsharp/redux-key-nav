@@ -1,4 +1,9 @@
-import { NavigationItem, navigationEvents } from "./navigation";
+import {
+  NavigationContainerName,
+  NavigationItem,
+  navigationContainers,
+  navigationEvents,
+} from "./navigation";
 import {
   PayloadAction,
   createSelector,
@@ -42,14 +47,30 @@ function getNextItem(
   const container = activeElement.container;
   const itemIdx = containerItems.findIndex((i) => i.id === activeElement.id);
 
+  // #TODO: maybe abstract each direction case into a single function to D.R.Y. this up? ¯\_(ツ)_/¯
   switch (direction) {
     case "ArrowUp":
       if (container.direction === "column" && containerItems[itemIdx - 1]) {
+        // simple, if this a column and there's an navigationItem before this (activeElement) in the array, return it!
         return containerItems[itemIdx - 1];
       } else {
-        const prevContainerItems = items.filter(
-          (i) => i.container.position === activeElement.container.position - 1
+        // otherwise check if there's a container that we can exit to
+        let nextExit: NavigationContainerName | undefined =
+          activeElement.container.exits?.north;
+
+        let prevContainerItems = items.filter(
+          (i) => i.containerId === nextExit
         );
+
+        // so if there's no items in this container, and the container has an exit
+        // keep recursively going thru containers' exits until either there are items or no more exits.
+        while (prevContainerItems.length === 0 && nextExit) {
+          nextExit = navigationContainers[nextExit].exits?.north;
+          console.log("gonna keep going north! nextExit:", nextExit);
+
+          prevContainerItems = items.filter((i) => i.containerId === nextExit);
+        }
+
         if (prevContainerItems[prevContainerItems.length - 1]) {
           return prevContainerItems[prevContainerItems.length - 1];
         }
@@ -59,9 +80,20 @@ function getNextItem(
       if (container.direction === "column" && containerItems[itemIdx + 1]) {
         return containerItems[itemIdx + 1];
       } else {
-        const nextContainerItems = items.filter(
-          (i) => i.container.position === activeElement.container.position + 1
+        let nextExit: NavigationContainerName | undefined =
+          activeElement.container.exits?.south;
+
+        let nextContainerItems = items.filter(
+          (i) => i.containerId === nextExit
         );
+
+        while (nextContainerItems.length === 0 && nextExit) {
+          nextExit = navigationContainers[nextExit].exits?.south;
+          console.log("gonna keep going south! nextExit:", nextExit);
+
+          nextContainerItems = items.filter((i) => i.containerId === nextExit);
+        }
+
         if (nextContainerItems[0]) {
           return nextContainerItems[0];
         }
@@ -70,12 +102,50 @@ function getNextItem(
     case "ArrowLeft":
       if (container.direction === "row" && containerItems[itemIdx - 1]) {
         return containerItems[itemIdx - 1];
+      } else {
+        let nextExit: NavigationContainerName | undefined =
+          activeElement.container.exits?.west;
+
+        let prevContainerItems = items.filter(
+          (i) => i.containerId === nextExit
+        );
+
+        while (prevContainerItems.length === 0 && nextExit) {
+          nextExit = navigationContainers[nextExit].exits?.west;
+          console.log("gonna keep going west! nextExit:", nextExit);
+
+          prevContainerItems = items.filter((i) => i.containerId === nextExit);
+        }
+
+        if (prevContainerItems[prevContainerItems.length - 1]) {
+          return prevContainerItems[prevContainerItems.length - 1];
+        }
       }
+
       break;
     case "ArrowRight":
       if (container.direction === "row" && containerItems[itemIdx + 1]) {
         return containerItems[itemIdx + 1];
+      } else {
+        let nextExit: NavigationContainerName | undefined =
+          activeElement.container.exits?.east;
+
+        let nextContainerItems = items.filter(
+          (i) => i.containerId === nextExit
+        );
+
+        while (nextContainerItems.length === 0 && nextExit) {
+          nextExit = navigationContainers[nextExit].exits?.east;
+          console.log("gonna keep going east! nextExit:", nextExit);
+
+          nextContainerItems = items.filter((i) => i.containerId === nextExit);
+        }
+
+        if (nextContainerItems[nextContainerItems.length - 1]) {
+          return nextContainerItems[nextContainerItems.length - 1];
+        }
       }
+
       break;
   }
 

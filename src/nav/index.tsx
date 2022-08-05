@@ -67,8 +67,7 @@ export default function Nav() {
         </Button>
       </ButtonGroup>
 
-      {/* #TODO: fix nested case */}
-      {/* <b>nested</b>
+      <b>nested</b>
 
       <ButtonGroup name="group-a">
         <ButtonGroup name="aoneatwoathreeafour">
@@ -106,7 +105,7 @@ export default function Nav() {
             <span>B Four</span>
           </Button>
         </ButtonGroup>
-      </ButtonGroup> */}
+      </ButtonGroup>
     </>
   );
 }
