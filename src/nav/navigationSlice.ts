@@ -1,8 +1,4 @@
-import {
-  NavigationItem,
-  navigationContainers,
-  navigationEvents,
-} from "./navigation";
+import { NavigationItem, navigationEvents } from "./navigation";
 import {
   PayloadAction,
   createSelector,
@@ -42,7 +38,8 @@ function getNextItem(
   );
 
   // #TODO: .sort() anything filter()'d
-  const container = navigationContainers[activeElement.containerId];
+
+  const container = activeElement.container;
   const itemIdx = containerItems.findIndex((i) => i.id === activeElement.id);
 
   switch (direction) {

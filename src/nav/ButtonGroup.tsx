@@ -10,25 +10,24 @@ import { NavigationContainerName, navigationContainers } from "./navigation";
 import Stack from "@mui/material/Stack";
 
 interface ButtonGroupProps {
-  containerId: NavigationContainerName;
+  name: NavigationContainerName;
   children: ReactNode;
 }
 
 export default function ButtonGroup(props: ButtonGroupProps) {
-  const { children } = props;
-  const groupId = useId();
-  const id = props.containerId || groupId;
-
-  const container = navigationContainers[props.containerId];
+  const { name, children } = props;
+  const container = navigationContainers[name];
 
   return (
     <Stack spacing={2} margin={1} direction={container.direction}>
-      <b>{container.direction}</b>
+      <b>
+        {name} {container.direction}
+      </b>
       {Children.map(children, (child, idx) => {
         if (isValidElement(child)) {
           return cloneElement(child, {
             position: idx,
-            containerId: id,
+            containerId: name,
           });
         }
         return null;

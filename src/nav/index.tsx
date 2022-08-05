@@ -31,7 +31,7 @@ export default function Nav() {
 
   return (
     <>
-      <ButtonGroup containerId="abc">
+      <ButtonGroup name="abc">
         <Button name="a" initialFocus>
           <span>A</span>
         </Button>
@@ -43,7 +43,7 @@ export default function Nav() {
         </Button>
       </ButtonGroup>
 
-      <ButtonGroup containerId="onetwothree">
+      <ButtonGroup name="onetwothree">
         <Button name="one">
           <span>One</span>
         </Button>
@@ -58,7 +58,7 @@ export default function Nav() {
         </Button>
       </ButtonGroup>
 
-      <ButtonGroup containerId="leftright">
+      <ButtonGroup name="leftright">
         <Button name="left">
           <span>Left</span>
         </Button>
@@ -67,10 +67,11 @@ export default function Nav() {
         </Button>
       </ButtonGroup>
 
-      <b>nested</b>
+      {/* #TODO: fix nested case */}
+      {/* <b>nested</b>
 
-      <ButtonGroup containerId="group-a">
-        <ButtonGroup containerId="aoneatwoathreeafour">
+      <ButtonGroup name="group-a">
+        <ButtonGroup name="aoneatwoathreeafour">
           <Button name="a one">
             <span>A One</span>
           </Button>
@@ -85,8 +86,8 @@ export default function Nav() {
           </Button>
         </ButtonGroup>
 
-        <ButtonGroup containerId="group-b">
-          <ButtonGroup containerId="boneabtwob">
+        <ButtonGroup name="group-b">
+          <ButtonGroup name="boneabtwob">
             <Button name="b one a">
               <span>B One A</span>
             </Button>
@@ -105,7 +106,7 @@ export default function Nav() {
             <span>B Four</span>
           </Button>
         </ButtonGroup>
-      </ButtonGroup>
+      </ButtonGroup> */}
     </>
   );
 }

@@ -1,3 +1,9 @@
+/* note: this file could be broken down into 2/3 files:
+ index.d.ts for interfaces and types
+ navigationContainers should probably live along-side application code (not here, which is more like a lib)
+ navigationEvents.ts for simple pub/sub thing
+*/
+
 export interface NavigationItem {
   id: string;
   container: NavigationContainer;
@@ -70,12 +76,13 @@ simple pub/sub
 use like:
 navigationEvents.publish('topicId', 'hey');
 
-const subscription = navigationEvents.subscribe('topidId', function(str) {
-	// do something meaningful with the event.
+const subscription = navigationEvents.subscribe('topidId', (str) => {
+	// do something meaningful when the event happens.
 });
-// ...sometime later when u no longer want subscription
+// ...sometime later stop subscription:
 subscription.remove();
 */
+
 export const navigationEvents = (function () {
   const topics: { [index: string]: Array<(arg: string | undefined) => void> } =
     {};
