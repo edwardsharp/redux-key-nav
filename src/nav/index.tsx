@@ -1,6 +1,6 @@
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
-import { useNavigationKeys } from "./navigation.hooks";
+import { useNavigationKeys } from "../lib/navigation/navigation.hooks";
 
 export default function Nav() {
   useNavigationKeys();

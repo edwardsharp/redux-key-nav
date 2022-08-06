@@ -1,8 +1,8 @@
 import { ReactNode, useCallback } from "react";
 
 import { Button as MUIButton } from "@mui/material";
-import { NavigationContainerName } from "./navigation";
-import { useNavigation } from "./navigation.hooks";
+import { NavigationContainerName } from "../lib/navigation/navigation";
+import { useNavigation } from "../lib/navigation/navigation.hooks";
 
 interface ButtonProps {
   containerId?: NavigationContainerName;

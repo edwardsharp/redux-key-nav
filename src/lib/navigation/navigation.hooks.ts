@@ -11,7 +11,7 @@ import {
   remove,
   selectIsActiveElement,
 } from "./navigationSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useCallback, useEffect, useId } from "react";
 
 export const useNavigationKeys = () => {

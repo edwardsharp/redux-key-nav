@@ -1,6 +1,6 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 
-import navigationReducer from "../nav/navigationSlice";
+import navigationReducer from "../lib/navigation/navigationSlice";
 
 export const store = configureStore({
   reducer: {

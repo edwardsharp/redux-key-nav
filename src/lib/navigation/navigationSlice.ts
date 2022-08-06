@@ -11,7 +11,7 @@ import {
   current,
 } from "@reduxjs/toolkit";
 
-import { RootState } from "../app/store";
+import { RootState } from "../../app/store";
 
 type NavigationItems = NavigationItem[];
 type ActiveElement = NavigationItem | undefined | null;
