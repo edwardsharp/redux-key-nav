@@ -1,10 +1,7 @@
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
-import { useNavigationKeys } from "../lib/navigation/navigation.hooks";
 
-export default function Nav() {
-  useNavigationKeys();
-
+export default function Nested() {
   return (
     <>
       <ButtonGroup name="abc">
