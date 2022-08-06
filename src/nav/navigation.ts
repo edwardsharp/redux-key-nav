@@ -39,12 +39,14 @@ const defs: NavigationContainerDefs = {
   root: {
     direction: "row",
   },
+
   abc: {
     direction: "row",
     exits: {
       south: "onetwothree",
     },
   },
+
   onetwothree: {
     direction: "column",
     exits: {
@@ -52,17 +54,52 @@ const defs: NavigationContainerDefs = {
       south: "leftright",
     },
   },
+
   leftright: {
     direction: "row",
     exits: {
       north: "onetwothree",
+      south: "threecol",
+    },
+  },
+
+  threecol: {
+    direction: "row",
+    exits: {
+      north: "threecola",
+      south: "threecola",
+    },
+  },
+  threecola: {
+    direction: "column",
+    exits: {
+      north: "leftright",
+      east: "threecolb",
       south: "group-a",
     },
   },
+  threecolb: {
+    direction: "column",
+    exits: {
+      north: "leftright",
+      east: "threecolc",
+      west: "threecola",
+      south: "group-a",
+    },
+  },
+  threecolc: {
+    direction: "column",
+    exits: {
+      north: "leftright",
+      west: "threecolb",
+      south: "group-a",
+    },
+  },
+
   "group-a": {
     direction: "row",
     exits: {
-      north: "leftright",
+      north: "threecol",
       south: "aoneatwoathreeafour",
     },
   },

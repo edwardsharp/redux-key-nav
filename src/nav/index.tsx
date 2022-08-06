@@ -69,6 +69,52 @@ export default function Nav() {
 
       <b>nested</b>
 
+      <ButtonGroup name="threecol">
+        <ButtonGroup name="threecola">
+          <Button name="threecolaone">
+            <span>A One</span>
+          </Button>
+          <Button name="threecolatwo">
+            <span>A Two</span>
+          </Button>
+          <Button name="threecolathree">
+            <span>A Three</span>
+          </Button>
+          <Button name="threecolafour">
+            <span>A Four</span>
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup name="threecolb">
+          <Button name="twocalbone">
+            <span>B One</span>
+          </Button>
+          <Button name="twocalbtwo">
+            <span>B Two</span>
+          </Button>
+          <Button name="twocalbthree">
+            <span>B hree</span>
+          </Button>
+          <Button name="twocalbfour">
+            <span>B Four</span>
+          </Button>
+        </ButtonGroup>
+
+        <ButtonGroup name="threecolc">
+          <Button name="threecolcone">
+            <span>C One</span>
+          </Button>
+          <Button name="threecolctwo">
+            <span>C Two</span>
+          </Button>
+          <Button name="threecolcthree">
+            <span>C Three</span>
+          </Button>
+          <Button name="threecolcfour">
+            <span>C Four</span>
+          </Button>
+        </ButtonGroup>
+      </ButtonGroup>
+
       <ButtonGroup name="group-a">
         <ButtonGroup name="aoneatwoathreeafour">
           <Button name="a one">

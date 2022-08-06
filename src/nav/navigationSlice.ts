@@ -134,6 +134,14 @@ function getNextItem(
           prevContainerItems = items.filter((i) => i.containerId === nextExit);
         }
 
+        // NOTE: try focusing same position item
+        const samePositionItem = prevContainerItems.find(
+          (i) => i.position === activeElement.position
+        );
+        if (samePositionItem) {
+          return samePositionItem;
+        }
+
         const lastActiveItem = prevContainerItems.find(
           (i) => nextExit && i.id === state.lastActiveItemInContainer[nextExit]
         );
@@ -163,6 +171,14 @@ function getNextItem(
           console.log("gonna keep going east! nextExit:", nextExit);
 
           nextContainerItems = items.filter((i) => i.containerId === nextExit);
+        }
+
+        // NOTE: try focusing same position item
+        const samePositionItem = nextContainerItems.find(
+          (i) => i.position === activeElement.position
+        );
+        if (samePositionItem) {
+          return samePositionItem;
         }
 
         const lastActiveItem = nextContainerItems.find(
