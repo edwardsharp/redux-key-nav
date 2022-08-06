@@ -15,17 +15,20 @@ import { RootState } from "../app/store";
 
 type NavigationItems = NavigationItem[];
 type ActiveElement = NavigationItem | undefined | null;
-
 type NextDirection = "ArrowUp" | "ArrowDown" | "ArrowLeft" | "ArrowRight";
-
+interface LastActiveItemInContainer {
+  [index: string]: string;
+}
 interface NavigationState {
   items: NavigationItems;
   activeElement: ActiveElement;
+  lastActiveItemInContainer: LastActiveItemInContainer;
 }
 
 const initialState: NavigationState = {
   items: [],
   activeElement: null,
+  lastActiveItemInContainer: {},
 };
 
 function getNextItem(
@@ -71,6 +74,13 @@ function getNextItem(
           prevContainerItems = items.filter((i) => i.containerId === nextExit);
         }
 
+        const lastActiveItem = prevContainerItems.find(
+          (i) => nextExit && i.id === state.lastActiveItemInContainer[nextExit]
+        );
+        if (lastActiveItem) {
+          return lastActiveItem;
+        }
+
         if (prevContainerItems[prevContainerItems.length - 1]) {
           return prevContainerItems[prevContainerItems.length - 1];
         }
@@ -92,6 +102,13 @@ function getNextItem(
           console.log("gonna keep going south! nextExit:", nextExit);
 
           nextContainerItems = items.filter((i) => i.containerId === nextExit);
+        }
+
+        const lastActiveItem = nextContainerItems.find(
+          (i) => nextExit && i.id === state.lastActiveItemInContainer[nextExit]
+        );
+        if (lastActiveItem) {
+          return lastActiveItem;
         }
 
         if (nextContainerItems[0]) {
@@ -117,6 +134,13 @@ function getNextItem(
           prevContainerItems = items.filter((i) => i.containerId === nextExit);
         }
 
+        const lastActiveItem = prevContainerItems.find(
+          (i) => nextExit && i.id === state.lastActiveItemInContainer[nextExit]
+        );
+        if (lastActiveItem) {
+          return lastActiveItem;
+        }
+
         if (prevContainerItems[prevContainerItems.length - 1]) {
           return prevContainerItems[prevContainerItems.length - 1];
         }
@@ -139,6 +163,13 @@ function getNextItem(
           console.log("gonna keep going east! nextExit:", nextExit);
 
           nextContainerItems = items.filter((i) => i.containerId === nextExit);
+        }
+
+        const lastActiveItem = nextContainerItems.find(
+          (i) => nextExit && i.id === state.lastActiveItemInContainer[nextExit]
+        );
+        if (lastActiveItem) {
+          return lastActiveItem;
         }
 
         if (nextContainerItems[nextContainerItems.length - 1]) {
@@ -175,6 +206,8 @@ export const navigationSlice = createSlice({
       );
       if (nextElement && state.activeElement?.id !== nextElement.id) {
         state.activeElement = nextElement;
+        state.lastActiveItemInContainer[nextElement.containerId] =
+          nextElement.id;
       }
     },
     onSelect: (state, action: PayloadAction<string>) => {
