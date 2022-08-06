@@ -135,6 +135,8 @@ function getNextItem(
         }
 
         // NOTE: try focusing same position item
+        // #TODO: try to find closest position (so not === but closest)?
+        // #TODO: should this only run if the directions are the same? (e.g. no row -> column jumps)
         const samePositionItem = prevContainerItems.find(
           (i) => i.position === activeElement.position
         );
@@ -211,7 +213,8 @@ export const navigationSlice = createSlice({
     },
     remove: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((i) => i.id === action.payload);
-      // #TODO: check if this is the activeElement and if so set null
+      // #TODO: check if this is the activeElement and if so set null & possibly find another item.
+      // #TODO: also check if lastActiveItemInContainer
     },
     nextItem: (state, action: PayloadAction<NextDirection>) => {
       const nextElement = getNextItem(state, action.payload);

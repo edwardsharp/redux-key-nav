@@ -18,7 +18,7 @@ export default function Nav() {
       dispatch(nextItem(e.key));
     }
     if (e.key === "Enter") {
-      dispatch(onSelect("hey"));
+      dispatch(onSelect("Enter key pressed!"));
     }
   }, []);
 

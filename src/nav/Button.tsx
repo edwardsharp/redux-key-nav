@@ -1,13 +1,8 @@
-import {
-  NavigationContainerName,
-  navigationContainers,
-  navigationEvents,
-} from "./navigation";
-import { ReactNode, useEffect, useId } from "react";
-import { insert, remove, selectIsActiveElement } from "./navigationSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { ReactNode, useCallback } from "react";
 
 import { Button as MUIButton } from "@mui/material";
+import { NavigationContainerName } from "./navigation";
+import { useNavigation } from "./useNavigation.hook";
 
 interface ButtonProps {
   containerId?: NavigationContainerName;
@@ -18,45 +13,28 @@ interface ButtonProps {
 }
 
 export default function Button(props: ButtonProps) {
-  const { children, initialFocus, name } = props;
-  const dispatch = useAppDispatch();
-  const id = useId();
-  const isActiveElement = useAppSelector((state) =>
-    selectIsActiveElement(state, id)
-  );
+  const { containerId, position, children, initialFocus } = props;
+  const name = props.name || "noname";
 
-  const containerId = props.containerId || "root";
-  const position = props.position || 0;
-  const container = navigationContainers[containerId];
-
-  // console.log(name, "rendered!");
-  useEffect(() => {
-    dispatch(
-      insert({
-        id,
-        position,
-        name,
-        containerId,
-        container,
-        initialFocus,
-      })
-    );
-
-    const subscription = navigationEvents.subscribe(id, (str) => {
-      console.log(id, name, "got event!");
-    });
-
-    return () => {
-      dispatch(remove(id));
-
-      subscription.remove();
-    };
+  const onSelect = useCallback((arg?: string) => {
+    console.log(name, "got event! arg:", arg);
   }, []);
 
+  const { isActiveElement } = useNavigation({
+    onSelect,
+    name,
+    position,
+    containerId,
+    initialFocus,
+  });
+
   return (
-    <MUIButton variant={isActiveElement ? "contained" : "outlined"}>
+    <MUIButton
+      variant={isActiveElement ? "contained" : "outlined"}
+      onClick={(e) => onSelect("click!")}
+    >
       {children}
-      {id} {containerId} {position}
+      {containerId} {position}
     </MUIButton>
   );
 }

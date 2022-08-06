@@ -35,7 +35,10 @@ export interface NavigationContainer {
 
 // #TODO: write a validation test to ensure the heirarchy is valid,
 // so like positions and parents don't have errors.
+// #TODO: also consider exporting an iife to other places can .add() their own container defs
+// ...would give this more of a library seperation-of-conerns feel.
 const defs: NavigationContainerDefs = {
+  // #TODO: root is just a convenient default, might not be necessary.
   root: {
     direction: "row",
   },
@@ -66,6 +69,7 @@ const defs: NavigationContainerDefs = {
   threecol: {
     direction: "row",
     exits: {
+      // exits for a container that just wraps another container is a little weird atm.
       north: "threecola",
       south: "threecola",
     },
@@ -142,16 +146,14 @@ const subscription = navigationEvents.subscribe('topidId', (str) => {
 subscription.remove();
 */
 
+export type NavigationEventListener = (arg?: string) => void;
+
 export const navigationEvents = (function () {
-  const topics: { [index: string]: Array<(arg: string | undefined) => void> } =
-    {};
+  const topics: { [index: string]: NavigationEventListener[] } = {};
   const hop = topics.hasOwnProperty;
 
   return {
-    subscribe: function (
-      topic: string,
-      listener: (arg: string | undefined) => void
-    ) {
+    subscribe: function (topic: string, listener: NavigationEventListener) {
       // add the topic if not yet created
       if (!hop.call(topics, topic)) topics[topic] = [];
 
@@ -164,12 +166,12 @@ export const navigationEvents = (function () {
         },
       };
     },
-    publish: function (topic: string, info?: string) {
+    publish: function (topic: string, arg?: string) {
       // bail if there's no topic or no listener callbacks
       if (!hop.call(topics, topic)) return;
 
       for (const cb of topics[topic]) {
-        cb && cb(info);
+        cb && cb(arg);
       }
     },
   };
