@@ -2,7 +2,7 @@ import { ReactNode, useCallback } from "react";
 
 import { Button as MUIButton } from "@mui/material";
 import { NavigationContainerName } from "./navigation";
-import { useNavigation } from "./useNavigation.hook";
+import { useNavigation } from "./navigation.hooks";
 
 interface ButtonProps {
   containerId?: NavigationContainerName;
@@ -32,9 +32,9 @@ export default function Button(props: ButtonProps) {
     <MUIButton
       variant={isActiveElement ? "contained" : "outlined"}
       onClick={(e) => onSelect("click!")}
+      title={`containerId: ${containerId}`}
     >
-      {children}
-      {containerId} {position}
+      {children} [{position}]
     </MUIButton>
   );
 }

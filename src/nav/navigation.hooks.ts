@@ -4,9 +4,40 @@ import {
   navigationContainers,
   navigationEvents,
 } from "./navigation";
-import { insert, remove, selectIsActiveElement } from "./navigationSlice";
+import {
+  insert,
+  nextItem,
+  onSelect,
+  remove,
+  selectIsActiveElement,
+} from "./navigationSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { useEffect, useId } from "react";
+import { useCallback, useEffect, useId } from "react";
+
+export const useNavigationKeys = () => {
+  const dispatch = useAppDispatch();
+
+  const onKeydown = useCallback((e: KeyboardEvent) => {
+    if (
+      e.key === "ArrowUp" ||
+      e.key === "ArrowDown" ||
+      e.key === "ArrowLeft" ||
+      e.key === "ArrowRight"
+    ) {
+      dispatch(nextItem(e.key));
+    }
+    if (e.key === "Enter") {
+      dispatch(onSelect("Enter key pressed!"));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("keydown", onKeydown);
+    return () => {
+      window.removeEventListener("keydown", onKeydown);
+    };
+  }, []);
+};
 
 export const useNavigation = (props: {
   onSelect: NavigationEventListener;

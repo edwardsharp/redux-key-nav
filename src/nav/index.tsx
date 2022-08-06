@@ -1,33 +1,9 @@
-import { nextItem, onSelect } from "./navigationSlice";
-import { useCallback, useEffect } from "react";
-
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
-import { useAppDispatch } from "../app/hooks";
+import { useNavigationKeys } from "./navigation.hooks";
 
 export default function Nav() {
-  const dispatch = useAppDispatch();
-
-  const onKeydown = useCallback((e: KeyboardEvent) => {
-    if (
-      e.key === "ArrowUp" ||
-      e.key === "ArrowDown" ||
-      e.key === "ArrowLeft" ||
-      e.key === "ArrowRight"
-    ) {
-      dispatch(nextItem(e.key));
-    }
-    if (e.key === "Enter") {
-      dispatch(onSelect("Enter key pressed!"));
-    }
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("keydown", onKeydown);
-    return () => {
-      window.removeEventListener("keydown", onKeydown);
-    };
-  }, []);
+  useNavigationKeys();
 
   return (
     <>
