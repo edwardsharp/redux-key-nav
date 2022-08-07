@@ -1,0 +1,22 @@
+button {
+  font-size: 1em;
+  color: black;
+  border: thin solid black;
+}
+
+button.active, button:hover {
+  border-color: #ff11ff;
+  color: #ff11ff;
+  cursor: pointer;
+  
+}
+button:focus { outline: none; }
+
+.column {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 250px;
+  height: 5em;
+  overflow: hidden;
+}

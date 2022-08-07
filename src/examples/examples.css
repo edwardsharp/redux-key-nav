@@ -1,0 +1,15 @@
+ol {
+  width: 250px;
+  margin: auto;
+}
+
+li {
+  font-size: 1em;
+}
+
+li.active,
+li:hover {
+  cursor: pointer;
+  color: #ff11ff;
+  text-decoration: underline;
+}

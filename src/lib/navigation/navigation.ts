@@ -10,6 +10,7 @@ export interface NavigationItem {
   containerId: NavigationContainerName;
   position: number;
   initialFocus?: boolean;
+  focusOnMount?: boolean;
   name?: string; // making debug'n a lil' easier right now.
 }
 
@@ -41,6 +42,40 @@ const defs: NavigationContainerDefs = {
   // #TODO: root is just a convenient default, might not be necessary.
   root: {
     direction: "row",
+  },
+
+  exampleroot: {
+    direction: "column",
+  },
+
+  supersimple: {
+    direction: "row",
+  },
+
+  infinite: {
+    direction: "column",
+  },
+  infinitenav: {
+    direction: "row",
+    exits: {
+      south: "infiniteitems",
+    },
+  },
+  infiniteitems: {
+    direction: "column",
+    exits: {
+      north: "infinitenav",
+    },
+  },
+
+  popovers: {
+    direction: "row",
+  },
+  popover1: {
+    direction: "column",
+  },
+  popover2: {
+    direction: "column",
   },
 
   abc: {

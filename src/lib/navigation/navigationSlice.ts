@@ -44,7 +44,7 @@ function getNextItem(
   const containerItems = items.filter(
     (i) => i.containerId === activeElement.containerId
   );
-
+  // .sort((a, b) => a.position - b.position);
   // #TODO: .sort() anything filter()'d
 
   const container = activeElement.container;
@@ -210,10 +210,21 @@ export const navigationSlice = createSlice({
       if (!state.activeElement && action.payload.initialFocus) {
         state.activeElement = action.payload;
       }
+      if (action.payload.focusOnMount) {
+        state.activeElement = action.payload;
+      }
     },
     remove: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter((i) => i.id === action.payload);
-      // #TODO: check if this is the activeElement and if so set null & possibly find another item.
+      state.items = state.items.filter((i) => i.id !== action.payload);
+      // check if this is the activeElement
+      // #TODO: if so set null & possibly find another item.
+      if (
+        state.activeElement?.id &&
+        state.activeElement.id === action.payload
+      ) {
+        state.activeElement = null;
+      }
+
       // #TODO: also check if lastActiveItemInContainer
     },
     nextItem: (state, action: PayloadAction<NextDirection>) => {

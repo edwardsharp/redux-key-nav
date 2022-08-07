@@ -2,7 +2,7 @@ import { Children, ReactNode, cloneElement, isValidElement } from "react";
 import {
   NavigationContainerName,
   navigationContainers,
-} from "../lib/navigation/navigation";
+} from "../../lib/navigation/navigation";
 
 import Stack from "@mui/material/Stack";
 

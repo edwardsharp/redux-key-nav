@@ -45,8 +45,9 @@ export const useNavigation = (props: {
   position?: number;
   containerId?: NavigationContainerName;
   initialFocus?: boolean;
+  focusOnMount?: boolean;
 }) => {
-  const { onSelect, name, initialFocus } = props;
+  const { onSelect, name, initialFocus, focusOnMount } = props;
 
   const dispatch = useAppDispatch();
   const id = useId();
@@ -67,6 +68,7 @@ export const useNavigation = (props: {
         containerId,
         container,
         initialFocus,
+        focusOnMount,
       })
     );
 

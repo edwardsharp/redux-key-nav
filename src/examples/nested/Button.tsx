@@ -1,14 +1,18 @@
+import {
+  NavigationContainerName,
+  NavigationEventListener,
+} from "../../lib/navigation/navigation";
 import { ReactNode, useCallback } from "react";
 
 import { Button as MUIButton } from "@mui/material";
-import { NavigationContainerName } from "../lib/navigation/navigation";
-import { useNavigation } from "../lib/navigation/navigation.hooks";
+import { useNavigation } from "../../lib/navigation/navigation.hooks";
 
 interface ButtonProps {
   containerId?: NavigationContainerName;
   position?: number;
   children?: ReactNode;
   initialFocus?: boolean;
+  onSelect?: NavigationEventListener;
   name?: string; // helpful for debugging rn.
 }
 
@@ -18,6 +22,7 @@ export default function Button(props: ButtonProps) {
 
   const onSelect = useCallback((arg?: string) => {
     console.log(name, "got event! arg:", arg);
+    props.onSelect && props.onSelect(arg);
   }, []);
 
   const { isActiveElement } = useNavigation({

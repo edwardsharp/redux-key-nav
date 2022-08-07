@@ -1,11 +1,14 @@
 import Button from "./Button";
 import ButtonGroup from "./ButtonGroup";
 
-export default function Nested() {
+export default function Nested(props: { onClose: () => void }) {
   return (
     <>
       <ButtonGroup name="abc">
-        <Button name="a" initialFocus>
+        <Button name="exit" initialFocus onSelect={(arg) => props.onClose()}>
+          <span>exit</span>
+        </Button>
+        <Button name="a">
           <span>A</span>
         </Button>
         <Button name="b">
