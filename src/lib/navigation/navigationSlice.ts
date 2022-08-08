@@ -245,10 +245,43 @@ export const navigationSlice = createSlice({
         navigationEvents.publish(state.activeElement.id, action.payload);
       }
     },
+    onExitContainer: (
+      state,
+      action: PayloadAction<NavigationContainerName>
+    ) => {
+      const prevContainerId = action.payload;
+      const exitContainerItems = state.items.filter(
+        (i) => i.containerId === prevContainerId
+      );
+
+      const prevActiveItem = exitContainerItems.find(
+        (i) =>
+          state.lastActiveItemInContainer[prevContainerId] &&
+          i.id === state.lastActiveItemInContainer[prevContainerId]
+      );
+      if (prevActiveItem) {
+        state.activeElement = prevActiveItem;
+        return;
+      }
+
+      const prevInitialFocusItem = exitContainerItems.find(
+        (i) => i.initialFocus === true
+      );
+      if (prevInitialFocusItem) {
+        state.activeElement = prevInitialFocusItem;
+        return;
+      }
+
+      // last attempt to find an item
+      if (exitContainerItems[0]) {
+        state.activeElement = exitContainerItems[0];
+      }
+    },
   },
 });
 
-export const { insert, remove, nextItem, onSelect } = navigationSlice.actions;
+export const { insert, remove, nextItem, onSelect, onExitContainer } =
+  navigationSlice.actions;
 
 export const selectActiveElement = (state: RootState) =>
   state.navigation.activeElement;
