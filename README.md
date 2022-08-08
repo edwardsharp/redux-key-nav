@@ -52,7 +52,7 @@ interface NavigationContainer {
 
 ```
 
-left and right arrow keys will navigate between `a`, `b`, or `c` and the down arrow (when on any button) will exit to `mainContainer` and here up and down arrows will navigate between `one`, `two`, and `three` buttons and the up arrow (when on button `one`) will exit to `topContainer`.
+left and right arrow keys will navigate between `a`, `b`, or `c` and the down arrow (when on any button in this row) will exit to `mainContainer` and here up and down arrows will navigate between `one`, `two`, and `three` buttons and the up arrow (when on button `one`) will exit to `topContainer`.
 
 ### 🪝 component hooks
 
