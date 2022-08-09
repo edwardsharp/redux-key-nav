@@ -8,16 +8,16 @@ an opinionated proof-of-concept & demo for handling arrow key navigation in Reac
 
 1. avoid dynamic (auto-magical) inference of rendered artifacts (i.e. the DOM) **rather:** attempt to be explicit in declaring all navigable elements and their behavior.
 2. avoid reading the DOM (querySelectors, getBoundingClientRect, etc.) **rather:** lean into Redux; try to align data flow to move in a single direction.
-3. avoid trying to be an all-in-one, handles-every-use-case-library solution **rather:** lean into the particular needs, use cases, biz logic etc. of your application.
+3. avoid trying to be an all-in-one, handles-every-use-case-library solution **rather:** lean into the particular needs, use cases, biz logic etc. of the application at hand.
 4. avoid black-box encapsulation **rather:** embrace extensibility for edge cases (but try to settle on sensible default behavior).
 
 ## overview
 
 ### 🧃 containers
 
-a core tenant of this is to explicitly represent all the containers that will be used in the app. each container represents a single row or column of navigable items. containers can contain other containers. similar to how a flexbox handles rows and columns.
+a core tenant of this is to explicitly represent all the containers that will be used in the app. each container represents a single row or column of navigable items. containers can contain other containers. like how flexbox handles rows and columns.
 
-at the heart of this all is a definition of all the containers that will be used in the app. see: `navigationContainers` in [src/lib/navigation/navigation.ts](src/lib/navigation/navigation.ts). this is an object where keys represent the names of each unique container (`NavigationContainerName`) and a value that looks like:
+at the heart of this all is a static definition of all the containers that will be used in the app, `navigationContainers` (see: [src/lib/navigation/navigation.ts](src/lib/navigation/navigation.ts)) is an object where the object key names represent the names of each unique container (`NavigationContainerName`) and value(s) like:
 
 ```ts
 interface NavigationContainer {
@@ -31,7 +31,7 @@ interface NavigationContainer {
 }
 ```
 
-`row` correlates to left & right arrow keys and `column` to up and down. `exits` reference other containers that navigation move to next after reaching the boundary. for example suppose we have 6 buttons in two containers (one row and one column) like so:
+`row` correlates to left & right arrow keys and `column` to up and down. `exits` reference other containers that navigation move to next after reaching the boundary. as an example suppose we have 6 buttons in two containers (one row and one column) like so:
 
 ```
 ┌──────────────────┐
