@@ -15,7 +15,7 @@ an opinionated proof-of-concept & demo for handling arrow key navigation in Reac
 
 ### 🧃 containers
 
-a core tenant of this is to explicitly represent all the containers that will be used in the app. each container represents a single row or column of navigable items.
+a core tenant of this is to explicitly represent all the containers that will be used in the app. each container represents a single row or column of navigable items. containers can contain other containers. similar to how a flexbox handles rows and columns.
 
 at the heart of this all is a definition of all the containers that will be used in the app. see: `navigationContainers` in [src/lib/navigation/navigation.ts](src/lib/navigation/navigation.ts). this is an object where keys represent the names of each unique container (`NavigationContainerName`) and a value that looks like:
 
@@ -105,7 +105,7 @@ pressing the right arrow while on `a` will exit to `one`, `b` -> `two` and `c` -
 
 `focusOnMount` will get set as the active item no matter if one already exists (see: [src/examples/popovers/Popovers.tsx](src/examples/popovers/Popovers.tsx)).
 
-`onExitContainer` is intended to be used when there are two (or more) containers that are rendered but do not reference each other with their container's `exists` property. an example is a navigation trap like a modal dialog popup that renders atop the other navigation items but navigation should be constrained to that container (or containers) only and when the container is closed call back to `onExitContainer` with the container name that active focus should go to (see: [src/examples/popovers/Popovers.tsx](src/examples/popovers/Popovers.tsx)).
+`onExitContainer` is intended to be used when there are two (or more) containers that are rendered but do not reference each other with their container's `exits` property. an example is a navigation trap like a modal dialog popup that renders atop the other navigation items but navigation should be constrained to that container (or containers) only and when the container is closed call back to `onExitContainer` with the container name that active focus should go to (see: [src/examples/popovers/Popovers.tsx](src/examples/popovers/Popovers.tsx)).
 
 use a `ref` in order to call methods on the HTMLElement like `.focus()` when an item is focused (i.e. `useEffect(()=> ref.focus(), [activeItem])` or when enter (or whatever) key presses happen. see: [src/examples/infinite/Infinite.tsx](src/examples/infinite/Infinite.tsx)
 
